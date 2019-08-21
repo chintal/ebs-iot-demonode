@@ -20,10 +20,26 @@ from ebs.iot.linuxnode.events import EventManagerMixin
 from ebs.iot.linuxnode.events import WEBRESOURCE
 from ebs.iot.linuxnode.events import TEXT
 from ebs.iot.linuxnode.events import ScheduledResourceClass
+from ebs.iot.linuxnode.gallery import GalleryMixin
+from ebs.iot.linuxnode.gallery import GalleryGuiMixin
 
 
-class DemoNode(EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
+class DemoNode(GalleryMixin, EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
     _appname = "demonode"
+
+    _language_tests = {
+        'English': 'English Keyboard',
+        'Hindi': 'हिंदी कीबोर्ड',
+        'Telugu': 'తెలుగులో టైప్',
+        'Kannada': 'ಕನ್ನಡ ಕೀಲಿಮಣೆ',
+        'Tamil': 'தமிழ் விசைப்பலகை',
+        'Marathi': 'मराठी कळफलक',
+        'Bengali': 'বাংলা কিবোর্ড',
+        'Malyalam': 'മലയാളം കീബോര്‍ഡ്',
+        'Punjab': 'ਪੰਜਾਬੀ ਦੇ ਬੋਰਡ',
+        'Oriya': 'ଉତ୍କଳଲିପି',
+        'Urdu': 'اردوبورڈ',
+    }
 
     _test_resources = [
         '045c19c0-93ae-4619-8722-9c1c4708c36d.mp4',
@@ -88,6 +104,29 @@ class DemoNode(EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
         'WealthyChillyAntarcticfurseal.webm',
     ]
 
+    _gallery_resources = [
+        '16932275.jpg',
+        '17136221.gif',
+        '17393195.jpg',
+        '20835472.jpg',
+        '8809191e149110a6daa9d4a14ce74ce7.jpg',
+        '936897552_MMM0383_123_496lo.jpg',
+        'af122.jpg',
+        'cross-KamSCixK.1398902331.jpg',
+        'IMG-20141005-WA0004.jpg',
+        'ldkjshfaksjngflag.jpeg',
+        'tumblr_ojky77uDxj1vuenqco1_400.jpg',
+        'tumblr_ovclw5HxoX1umhkj9o1_500.jpg',
+        'tumblr_owgxp087mF1vlp267o1_400.gif',
+        'tumblr_owl8i7CvO91vuootio1_250.gif',
+        'tumblr_ncdrk7JuMe1tghbqho1_500.gif',
+        'tumblr_ncggdfhY5k1rolakdo1_500.jpg',
+        'tumblr_nioai6hSWF1u5ncsao1_1280.jpg',
+        'tumblr_nz1dbzQQyU1uy1o4lo1_540.jpg',
+        'tumblr_o0hv3lRZ001thdxyvo1_500.jpg',
+        'tumblr_o2ee0kcPKD1v5suc0o1_500.jpg',
+    ]
+
     def __init__(self, *args, **kwargs):
         kwargs['resource_class'] = ScheduledResourceClass
         super(DemoNode, self).__init__(*args, **kwargs)
@@ -95,20 +134,6 @@ class DemoNode(EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
     def _demo_busy(self):
         self.busy_set()
         self._reactor.callLater(15, self.busy_clear)
-
-    _language_tests = {
-        'English': 'English Keyboard',
-        'Hindi': 'हिंदी कीबोर्ड',
-        'Telugu': 'తెలుగులో టైప్',
-        'Kannada': 'ಕನ್ನಡ ಕೀಲಿಮಣೆ',
-        'Tamil': 'తதமிழ் விசைப்பலகை',
-        'Marathi': 'मराठी कळफलक',
-        'Bengali': 'বাংলা কিবোর্ড',
-        'Malyalam': 'മലയാളം കീബോര്‍ഡ്',
-        'Punjab': 'ਪੰਜਾਬੀ ਦੇ ਬੋਰਡ',
-        'Oriya': 'ଉତ୍କଳଲିପି',
-        'Urdu': 'اردوبورڈ',
-    }
 
     def _demo_marquee_language(self):
         s = ''
@@ -131,6 +156,30 @@ class DemoNode(EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
             self._log.info("Exiting Overlay Mode")
             self.overlay_mode = False
         self._reactor.callLater(10, _exit_overlay)
+
+    # def _demo_sidebar_left(self, after=11):
+    #     def _show_sidebar_left():
+    #         print("Showing Left Sidebar")
+    #         self.gui_sidebar_left_show()
+    #
+    #     def _hide_sidebar_left():
+    #         print("Hiding Left Sidebar")
+    #         self.gui_sidebar_left_hide()
+    #
+    #     self._reactor.callLater(after, _show_sidebar_left)
+    #     self._reactor.callLater(after + 10, _hide_sidebar_left)
+
+    def _demo_sidebar_right(self, after=17):
+        def _show_sidebar_right():
+            print("Showing Right Sidebar")
+            self.gui_sidebar_right_show()
+
+        def _hide_sidebar_right():
+            print("Hiding Right Sidebar")
+            self.gui_sidebar_right_hide()
+
+        self._reactor.callLater(after, _show_sidebar_right)
+        self._reactor.callLater(after + 10, _hide_sidebar_right)
 
     def _demo_http_get(self):
         def _http_get_callback(response):
@@ -172,6 +221,11 @@ class DemoNode(EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
 
         self._reactor.callLater(8, _http_download)
 
+    def _demo_shell(self):
+        def _handle_result(result):
+            print(result.strip())
+        d = self._shell_execute(['iwgetid', '-s'], _handle_result)
+
     def _demo_resource_manager(self):
         def _resource_manager_test():
             # self.resource_manager.insert(
@@ -185,6 +239,10 @@ class DemoNode(EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
                 self.resource_manager.insert(r, url=url)
                 # resource = self.resource_manager.get(r)
                 # d = self.resource_manager.prefetch(resource)
+
+            for r in self._gallery_resources:
+                url = 'http://scaffold.longclaw/images/{0}'.format(r)
+                self.resource_manager.insert(r, url=url)
 
             # def _play_media(*args, **kwargs):
             #     content = kwargs.pop('content')
@@ -249,23 +307,40 @@ class DemoNode(EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
         # for x in self.resource_manager.cache_files:
         #     print(self.resource_manager.get(x).next_use, x)
 
+    def _populate_demo_gallery(self):
+        self.gallery_load(
+            WEBRESOURCE,
+            [(x, None) for x in self._gallery_resources]
+        )
+
+    def _demo_gallery(self):
+        print("Starting Gallery Demo")
+        self._populate_demo_gallery()
+        self.gallery_start()
+        # self.gallery_manager(WEBRESOURCE).start()
+
     def start(self):
         super(DemoNode, self).start()
         # self._demo_marquee_language()
         # self._demo_marquee()
         self._demo_busy()
         self._demo_overlay()
+        # self._demo_sidebar_left()
+        # self._demo_sidebar_right()
         self._demo_http_get()
         self._demo_http_download()
+        self._demo_shell()
         d = self._demo_resource_manager()
         d.addCallback(lambda _: print("Finished Resource Manager Demo"))
         d.addCallback(lambda _: self._demo_event_manager())
+        d.addCallback(lambda _: self._demo_gallery())
 
     def stop(self):
         super(DemoNode, self).stop()
 
 
-class DemoNodeGui(MediaPlayerGuiMixin, BaseIoTNodeGui, DemoNode):
+class DemoNodeGui(GalleryGuiMixin, MediaPlayerGuiMixin,
+                  BaseIoTNodeGui, DemoNode):
     _gui_color_1 = (0x6d / 255., 0xc0 / 255., 0x66 / 255., 1)
     _gui_color_2 = (0xff / 255., 0x00 / 255., 0x00 / 255., 1)
     _gui_supports_overlay_mode = True
