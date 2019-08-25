@@ -22,9 +22,11 @@ from ebs.iot.linuxnode.events import TEXT
 from ebs.iot.linuxnode.events import ScheduledResourceClass
 from ebs.iot.linuxnode.gallery import GalleryMixin
 from ebs.iot.linuxnode.gallery import GalleryGuiMixin
+from ebs.iot.linuxnode.browser import BrowserMixin
+from ebs.iot.linuxnode.browser import BrowserGuiMixin
 
 
-class DemoNode(GalleryMixin, EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
+class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
     _appname = "demonode"
 
     _language_tests = {
@@ -319,6 +321,21 @@ class DemoNode(GalleryMixin, EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
         self.gallery_start()
         # self.gallery_manager(WEBRESOURCE).start()
 
+    def _demo_browser(self):
+        print("Starting Browser Demo  (in sidebar)")
+        self.browser_start()
+
+        def _browser_target():
+            print("Changing browser target")
+            self.browser.target = 'http://www.google.com'
+
+        def _browser_stop():
+            print("Closing browser")
+            self.browser_stop()
+
+        self._reactor.callLater(10, _browser_target)
+        self._reactor.callLater(20, _browser_stop)
+
     def start(self):
         super(DemoNode, self).start()
         # self._demo_marquee_language()
@@ -333,13 +350,14 @@ class DemoNode(GalleryMixin, EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
         d = self._demo_resource_manager()
         d.addCallback(lambda _: print("Finished Resource Manager Demo"))
         d.addCallback(lambda _: self._demo_event_manager())
-        d.addCallback(lambda _: self._demo_gallery())
+        # d.addCallback(lambda _: self._demo_gallery())
+        d.addCallback(lambda _: self._demo_browser())
 
     def stop(self):
         super(DemoNode, self).stop()
 
 
-class DemoNodeGui(GalleryGuiMixin, MediaPlayerGuiMixin,
+class DemoNodeGui(BrowserGuiMixin, GalleryGuiMixin, MediaPlayerGuiMixin,
                   BaseIoTNodeGui, DemoNode):
     _gui_color_1 = (0x6d / 255., 0xc0 / 255., 0x66 / 255., 1)
     _gui_color_2 = (0xff / 255., 0x00 / 255., 0x00 / 255., 1)
