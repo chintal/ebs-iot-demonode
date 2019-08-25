@@ -19,7 +19,7 @@ setuptools.setup(
     package_data={'demonode': ['default/config.ini',
                                'fonts/FreeSans.ttf',
                                'fonts/ARIALUNI.TTF',
-                               'fonts/iitmuni.ttf',
+                               'fonts/Sakalbharati.ttf',
                                'images/background.png']},
 
     install_requires=_requires,
