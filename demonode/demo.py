@@ -150,12 +150,12 @@ class DemoNode(GalleryMixin, EventManagerMixin, MediaPlayerMixin, BaseIoTNode):
         def _enter_overlay():
             self._log.info("Entering Overlay Mode")
             self.overlay_mode = True
-        self._reactor.callLater(5, _enter_overlay)
+        self._reactor.callLater(25, _enter_overlay)
 
         def _exit_overlay():
             self._log.info("Exiting Overlay Mode")
             self.overlay_mode = False
-        self._reactor.callLater(10, _exit_overlay)
+        self._reactor.callLater(45, _exit_overlay)
 
     # def _demo_sidebar_left(self, after=11):
     #     def _show_sidebar_left():
