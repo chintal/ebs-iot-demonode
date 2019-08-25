@@ -1,6 +1,7 @@
 
 import os
 
+
 def run_node():
     from .config import DemoNodeConfig
     nodeconfig = DemoNodeConfig()
@@ -8,7 +9,7 @@ def run_node():
     from ebs.iot.linuxnode import config
     config.current_config = nodeconfig
 
-    if nodeconfig.platform == 'rpi' and nodeconfig.overlay_mode is True:
+    if nodeconfig.platform == 'rpi':
         os.environ['KUVY_BCM_DISPMANX_LAYER'] = str(nodeconfig.app_dispmanx_layer)
         print("Using app_dispmanx_layer {0}".format(nodeconfig.app_dispmanx_layer))
         
