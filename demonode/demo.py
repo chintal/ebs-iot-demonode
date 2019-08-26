@@ -11,14 +11,14 @@ from datetime import timedelta
 from twisted.web.client import ResponseFailed
 from twisted.internet.task import deferLater
 from ebs.iot.linuxnode.http import swallow_http_error
+from ebs.iot.linuxnode.events import WEBRESOURCE
+from ebs.iot.linuxnode.events import TEXT
 
 from ebs.iot.linuxnode.basenode import BaseIoTNode
 from ebs.iot.linuxnode.basenode import BaseIoTNodeGui
 from ebs.iot.linuxnode.mediaplayer import MediaPlayerGuiMixin
 from ebs.iot.linuxnode.mediaplayer import MediaPlayerMixin
 from ebs.iot.linuxnode.events import EventManagerMixin
-from ebs.iot.linuxnode.events import WEBRESOURCE
-from ebs.iot.linuxnode.events import TEXT
 from ebs.iot.linuxnode.events import ScheduledResourceClass
 from ebs.iot.linuxnode.gallery import GalleryMixin
 from ebs.iot.linuxnode.gallery import GalleryGuiMixin
@@ -308,16 +308,12 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
         #     print(self.resource_manager.get(x).next_use, x)
 
     def _populate_demo_gallery(self):
-        self.gallery_load(
-            WEBRESOURCE,
-            [(x, None) for x in self._gallery_resources]
-        )
+        self.gallery_load([(x, None) for x in self._gallery_resources])
 
     def _demo_gallery(self):
         print("Starting Gallery Demo")
         self._populate_demo_gallery()
         self.gallery_start()
-        # self.gallery_manager(WEBRESOURCE).start()
 
     def _demo_browser(self):
         print("Starting Browser Demo  (in sidebar)")
