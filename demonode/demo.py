@@ -330,7 +330,7 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
             self.browser_stop()
 
         self._reactor.callLater(10, _browser_target)
-        # self._reactor.callLater(350, _browser_stop)
+        self._reactor.callLater(350, _browser_stop)
 
     def start(self):
         super(DemoNode, self).start()
