@@ -315,11 +315,13 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
         self._populate_demo_gallery()
         self.gallery_start()
         self._reactor.callLater(30, self.gallery_stop)
-        self._reactor.callLater(35, self.gallery_start)
+        self._reactor.callLater(61, self.gallery_start)
 
     def _demo_browser(self):
-        print("Starting Browser Demo  (in sidebar)")
-        self.browser_start()
+
+        def _browser_start():
+            print("Starting Browser Demo  (in sidebar)")
+            self.browser_start()
 
         def _browser_target():
             print("Changing browser target")
@@ -329,8 +331,9 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
             print("Closing browser")
             self.browser_stop()
 
-        self._reactor.callLater(10, _browser_target)
-        self._reactor.callLater(350, _browser_stop)
+        self._reactor.callLater(30, _browser_start)
+        self._reactor.callLater(45, _browser_target)
+        self._reactor.callLater(60, _browser_stop)
 
     def start(self):
         super(DemoNode, self).start()
@@ -347,7 +350,7 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
         d.addCallback(lambda _: print("Finished Resource Manager Demo"))
         d.addCallback(lambda _: self._demo_event_manager())
         d.addCallback(lambda _: self._demo_gallery())
-        # d.addCallback(lambda _: self._demo_browser())
+        d.addCallback(lambda _: self._demo_browser())
 
     def stop(self):
         super(DemoNode, self).stop()
