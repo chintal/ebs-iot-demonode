@@ -150,12 +150,10 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
 
     def _demo_overlay(self):
         def _enter_overlay():
-            self._log.info("Entering Overlay Mode")
             self.overlay_mode = True
         self._reactor.callLater(25, _enter_overlay)
 
         def _exit_overlay():
-            self._log.info("Exiting Overlay Mode")
             self.overlay_mode = False
         self._reactor.callLater(45, _exit_overlay)
 
