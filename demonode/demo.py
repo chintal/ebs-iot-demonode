@@ -315,7 +315,7 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
         self._populate_demo_gallery()
         self.gallery_start()
         self._reactor.callLater(30, self.gallery_stop)
-        self._reactor.callLater(61, self.gallery_start)
+        # self._reactor.callLater(61, self.gallery_start)
 
     def _demo_browser(self):
 
