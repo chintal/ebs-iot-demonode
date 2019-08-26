@@ -323,14 +323,14 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
 
         def _browser_target():
             print("Changing browser target")
-            self.browser.target = 'http://www.google.com'
+            self.browser.target = 'http://youtube.com'
 
         def _browser_stop():
             print("Closing browser")
             self.browser_stop()
 
         self._reactor.callLater(10, _browser_target)
-        self._reactor.callLater(20, _browser_stop)
+        # self._reactor.callLater(350, _browser_stop)
 
     def start(self):
         super(DemoNode, self).start()
