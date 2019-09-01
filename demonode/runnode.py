@@ -9,6 +9,8 @@ def run_node():
     from ebs.iot.linuxnode import config
     config.current_config = nodeconfig
 
+    os.environ['KIVY_TEXT'] = 'pango'
+
     if nodeconfig.platform == 'rpi':
         os.environ['KUVY_BCM_DISPMANX_LAYER'] = str(nodeconfig.app_dispmanx_layer)
         os.environ['KIVY_WINDOW'] = 'egl_rpi'
