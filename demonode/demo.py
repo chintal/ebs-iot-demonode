@@ -13,6 +13,7 @@ from twisted.internet.task import deferLater
 from ebs.iot.linuxnode.http import swallow_http_error
 from ebs.iot.linuxnode.events import WEBRESOURCE
 from ebs.iot.linuxnode.events import TEXT
+from ebs.iot.linuxnode.gallery import SIDEBAR
 
 from ebs.iot.linuxnode.basenode import BaseIoTNode
 from ebs.iot.linuxnode.basenode import BaseIoTNodeGui
