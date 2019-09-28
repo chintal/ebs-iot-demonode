@@ -12,7 +12,7 @@ def run_node():
     os.environ['KIVY_TEXT'] = 'pango'
 
     if nodeconfig.platform == 'rpi':
-        os.environ['KUVY_BCM_DISPMANX_LAYER'] = str(nodeconfig.app_dispmanx_layer)
+        os.environ['KIVY_BCM_DISPMANX_LAYER'] = str(nodeconfig.app_dispmanx_layer)
         os.environ['KIVY_WINDOW'] = 'egl_rpi'
         print("Using app_dispmanx_layer {0}".format(nodeconfig.app_dispmanx_layer))
         

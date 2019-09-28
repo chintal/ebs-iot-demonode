@@ -107,6 +107,17 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
         'WealthyChillyAntarcticfurseal.webm',
     ]
 
+    _test_pdfs = [
+        '1.pdf',
+        '2.pdf',
+        '3.pdf',
+        '4.pdf',
+        '5.pdf',
+        '6.pdf',
+        '7.pdf',
+        '8.pdf',
+    ]
+
     _gallery_resources = [
         '16932275.jpg',
         '17136221.gif',
@@ -245,6 +256,10 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
                 url = 'http://scaffold.longclaw/images/{0}'.format(r)
                 self.resource_manager.insert(r, url=url)
 
+            for r in self._test_pdfs:
+                url = 'http://scaffold.longclaw/pdf/{0}'.format(r)
+                self.resource_manager.insert(r, url=url)
+
             # def _play_media(*args, **kwargs):
             #     content = kwargs.pop('content')
             #     return self.media_play(content, duration=60, loop=True)
@@ -253,16 +268,18 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
 
         return deferLater(self._reactor, 5, _resource_manager_test)
 
-    def _create_demo_events(self, offset=0):
-        runslot = list(range(len(self._test_resources)))
+    def _create_demo_events(self, offset=0, resources=None):
+        if not resources:
+            resources = self._test_resources
+        runslot = list(range(len(resources)))
         shuffle(runslot)
         perslot = 110
         n = datetime.now() + timedelta(seconds=offset * perslot)
-        for idx in range(len(self._test_resources)):
+        for idx in range(len(resources)):
             eid = 'e{0}'.format(runslot[idx] + offset)
             self.event_manager(WEBRESOURCE).insert(
-                eid, etype=WEBRESOURCE, start_time=n,
-                resource=self._test_resources[runslot[idx]]
+                eid, etype=WEBRESOURCE, start_time=n, duration=100,
+                resource=resources[runslot[idx]]
             )
             n = n + timedelta(seconds=perslot)
 
@@ -283,8 +300,9 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
 
     def _demo_event_manager(self):
         print("Starting Event Manager Demo")
-        self._create_demo_events()
-        self._create_demo_events(offset=len(self._test_resources))
+        # self._create_demo_events()
+        self._create_demo_events(resources=self._test_pdfs) #+ self._test_resources)
+        # self._create_demo_events(offset=len(self._test_resources))
         self.event_manager(WEBRESOURCE).start()
         self._create_demo_text_events(0)
         self.event_manager(TEXT).start()
