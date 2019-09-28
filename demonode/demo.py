@@ -120,6 +120,7 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
 
     _gallery_resources = [
         '16932275.jpg',
+        '3.pdf',
         '17136221.gif',
         '17393195.jpg',
         '20835472.jpg',
@@ -344,6 +345,7 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
         self._reactor.callLater(240, self.gallery_stop)
         self._reactor.callLater(270, self.gallery_start)
         self._reactor.callLater(300, self.gallery_stop)
+        self._reactor.callLater(350, self.gallery_start)
 
     def _demo_browser(self):
 
