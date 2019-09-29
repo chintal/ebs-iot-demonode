@@ -302,7 +302,7 @@ class DemoNode(BrowserMixin, GalleryMixin, EventManagerMixin, MediaPlayerMixin, 
     def _demo_event_manager(self):
         print("Starting Event Manager Demo")
         # self._create_demo_events()
-        self._create_demo_events(resources=self._test_pdfs) #+ self._test_resources)
+        self._create_demo_events(resources=self._test_pdfs + self._test_resources)
         # self._create_demo_events(offset=len(self._test_resources))
         self.event_manager(WEBRESOURCE).start()
         self._create_demo_text_events(0)
