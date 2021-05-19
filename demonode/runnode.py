@@ -25,4 +25,8 @@ def run_node():
 
     from .demo import DemoApplication
     print("Starting Application")
-    DemoApplication(config=nodeconfig).run()
+    DemoApplication(config=nodeconfig, debug=True).run()
+
+
+if __name__ == '__main__':
+    run_node()
